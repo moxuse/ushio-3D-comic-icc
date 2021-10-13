@@ -1,7 +1,6 @@
-  var container, stats, controls;
+var container, stats, controls;
 var camera, scene, renderer, light;
-  
-var mixers = [];
+
 
   init();
   animate();
@@ -10,69 +9,82 @@ var mixers = [];
 
     container = document.getElementById( 'stage' );
 
-    camera = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.3, 1000 );
-    camera.position.set(153, 0, -9);
-    camera.lookAt(new THREE.Vector3(153, 0, 1300));
+    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.3, 1000 );
+    camera.position.set(0, 0, -10);
+    camera.lookAt(new THREE.Vector3(0, 0, 1000));
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xa0a0a0 );
+    scene.background = new THREE.Color( 0xffffff );
 
 
   // ground
-  var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
-  mesh.rotation.x = - Math.PI / 2;
-  mesh.receiveShadow = true;
-  scene.add( mesh );
+  // var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+  // mesh.rotation.x = - Math.PI / 2;
+  // mesh.receiveShadow = true;
+  // scene.add( mesh );
 
   var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
   grid.material.opacity = 0.2;
   grid.material.transparent = true;
   scene.add( grid );
     
-    light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-    light.position.set( 0, 200, 0 );
+
+    light = new THREE.DirectionalLight(0xffffff);
+    const targetObject = new THREE.Object3D();
+    scene.add(targetObject);
+    targetObject.position.set(0, -1000, 0);
+    light.position.set( 0, 1000, 0 );
+    light.target = targetObject;
     scene.add( light );
 
-    light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( 0, 200, 100 );
-    light.castShadow = true;
-    light.shadow.camera.top = 180;
-    light.shadow.camera.bottom = -100;
-    light.shadow.camera.left = -120;
-    light.shadow.camera.right = 120;
-    scene.add( light );
-
-    scene.add( new THREE.CameraHelper( light.shadow.camera ) );
+    const ambiLight = new THREE.AmbientLight( 0xffffff ); // soft white light
+    scene.add( ambiLight );
+    // scene.add( new THREE.CameraHelper( light.shadow.camera ) );
 
     // model
-    var loader = new THREE.FBXLoader();
-    loader.load('../model/ComicScene.fbx', function (object) {
-      // object.mixer = new THREE.AnimationMixer( object );
-			// 		object.traverse( function ( child ) {
+    var loader = new THREE.GLTFLoader();  //from the docs
+    loader.load('../model/untitled.glb', function (data) {      
+      const obj = data.scene;
+      // obj.children.forEach(child => {
+      //   child.material.refractionRatio = 0.1;
+      //   console.log(child.material.refractionRatio )
+      // })
+      scene.add(obj);
+      console.log(obj);
+      // obj.children.forEach(child => {
+      //   console.log(child.material.refractionRatio )
+      // })
+    });
+    // var loader = new THREE.FBXLoader();
+    // loader.load('../model/ComicScene.fbx', function (object) {
+    //   // object.mixer = new THREE.AnimationMixer( object );
+		// 	// 		object.traverse( function ( child ) {
             
-      //       scene.add(child);
-			// 			if ( child.isMesh ) {
+    //   //       scene.add(child);
+		// 	// 			if ( child.isMesh ) {
 
-			// 				child.castShadow = true;
-			// 				child.receiveShadow = true;
+		// 	// 				child.castShadow = true;
+		// 	// 				child.receiveShadow = true;
 
-			// 			}
+		// 	// 			}
 
-			// 		} );
+		// 	// 		} );
       
-      scene.add(object);
-      console.log('loded', object)
-    } );
+    //   scene.add(object);
+    //   console.log('loded', object)
+    // } );
 
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    // sceneガンマ値を補正
+    renderer.outputEncoding = THREE.GammaEncoding;
     // renderer.shadowMap.enabled = true;
    
     container.appendChild(renderer.domElement);
 
     controls = new THREE.OrbitControls( camera, renderer.domElement  );
-		controls.target.set( 150, 0, -19 );
+		controls.target.set( 0, 0, 0 );
     controls.update();
 
     window.addEventListener( 'resize', onWindowResize, false );
