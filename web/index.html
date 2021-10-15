@@ -1,14 +1,15 @@
 <DOCTYPE html>
 <html lang="ja">
   <head>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="lib/three.r133.min.js"></script>
     <!-- <script defer src="https://threejs.org/examples/js/loaders/FBXLoader.js"></script> -->
-    <script defer src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
-
-		<script defer src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-		<script defer src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+    <script defer src="lib/GLTFLoader.js"></script>
+    <script defer src="lib/axios.min.js"></script>
+		<!-- <script defer src="https://threejs.org/examples/js/controls/OrbitControls.js"></script> -->
+		<!-- <script defer src="https://threejs.org/examples/js/libs/stats.min.js"></script> -->
     <style>
       body {
+        margin: 0;
         background : #000;
       }
 
@@ -19,7 +20,9 @@
   </style>
   </head>
   <body>
-    <div id="stage">
+    <div id="wheel">
+      <div id="stage"></div>
+    </div>  
     <script defer src="./javascripts/index.js"></script>
   </body>
 </html>

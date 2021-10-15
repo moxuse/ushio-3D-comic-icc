@@ -1,0 +1,6 @@
+{
+  "cameraWheelZ": {
+    "begin": -10,
+    "end": 180
+  }
+}
