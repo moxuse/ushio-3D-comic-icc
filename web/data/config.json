@@ -1,6 +1,15 @@
 {
-  "cameraWheelZ": {
-    "begin": -10,
-    "end": 180
+  "camera": {
+    "speed": 1.0,
+    "begin": {
+      "x": 0,
+      "y": 0,
+      "z": -10
+    },
+    "end": {
+      "x": 0,
+      "y": 0,
+      "z": 100
+    }
   }
 }

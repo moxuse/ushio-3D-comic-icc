@@ -1,6 +1,6 @@
 var container, controls;
 var camera, scene, renderer, light;
-var cameraPositionZ;
+var from, to, wheelPosition;
 // var stats;
 
 axios.get('data/config.json')
@@ -13,11 +13,17 @@ axios.get('data/config.json')
   });
 
 function init(config) {
-  cameraPositionZ =  config.cameraWheelZ.begin;
+  wheelPosition = 0;
+  var speed = config.camera.speed;
+  var begin = config.camera.begin;
+  var end = config.camera.end;
+  from = new THREE.Vector3(begin.x, begin.y, begin.z);
+  to = new THREE.Vector3(end.x, end.y, end.z);
+  
   container = document.getElementById( 'stage' );
 
   camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.3, 2000 );
-  camera.position.set(0, 0, cameraPositionZ);
+  camera.position.set(begin.x, begin.y, begin.z);
   camera.lookAt(new THREE.Vector3(0, 0, 2000));
 
   scene = new THREE.Scene();
@@ -90,7 +96,7 @@ function init(config) {
 
   window.addEventListener( 'resize', onWindowResize, false );
   var scrollElement = document.getElementById('wheel');
-  scrollElement.addEventListener('wheel', function (event) { onWheelEvent(event, config.cameraWheelZ) }, false);
+  scrollElement.addEventListener('wheel', function (event) { onWheelEvent(event, speed) }, false);
   
   // stats
   // stats = new Stats();
@@ -108,23 +114,25 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame( animate );
   renderer.render(scene, camera);
-  camera.position.set(0, 0, cameraPositionZ);
+
+  camera.position.lerpVectors(from, to, wheelPosition);
   camera.updateMatrix();
   // controls.update();
-  // stats.update();　
+  // stats.update();　s
 }
 
 // mouse wheel and camera move event
-function onWheelEvent(event, cameraWheelZ) {
-  // console.log(cameraPositionZ, cameraWheelZ)
-  if (cameraWheelZ.begin <= cameraPositionZ && cameraPositionZ <= cameraWheelZ.end) {
-    cameraPositionZ += event.deltaY * -0.01;
+function onWheelEvent(event, speed) {
+  // console.log(wheelPosition, cameraWheelZ)
+  if (0 <= wheelPosition && wheelPosition <= 1) {
+    wheelPosition += event.deltaY * (-0.00001 * speed);
   }
-  if (cameraWheelZ.begin > cameraPositionZ) {
-    cameraPositionZ = cameraWheelZ.begin
+  
+  if (0 > wheelPosition) {
+    wheelPosition = 0;
   }
-  if (cameraWheelZ.end < cameraPositionZ) {
-    cameraPositionZ = cameraWheelZ.end
+  if (1 <= wheelPosition) {
+    wheelPosition = 1;
   }
   event.preventDefault();
 }
