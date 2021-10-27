@@ -1,0 +1,1 @@
+zip ./release/ushio-icc-web-vX.X.zip -r web/ -x "*.DS_Store"

@@ -1,6 +1,7 @@
 var container, controls;
 var camera, scene, renderer, light;
 var from, to, wheelPosition;
+var loading = document.getElementById('loading');
 // var stats;
 
 axios.get('data/config.json')
@@ -22,9 +23,9 @@ function init(config) {
   
   container = document.getElementById( 'stage' );
 
-  camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.3, 2000 );
+  camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.01, 100 );
   camera.position.set(begin.x, begin.y, begin.z);
-  camera.lookAt(new THREE.Vector3(0, 0, 2000));
+  camera.lookAt(new THREE.Vector3(0, 0, -2000));
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0xffffff );
@@ -54,7 +55,7 @@ function init(config) {
 
   // model
   var loader = new THREE.GLTFLoader();  //from the docs
-  loader.load('../data/model/untitled.glb', function (data) {      
+  loader.load('../data/model/ushio_ICC.glb', function (data) {      
     var obj = data.scene;
     // obj.children.forEach(child => {
     //   child.material.refractionRatio = 0.1;
@@ -65,6 +66,10 @@ function init(config) {
     // obj.children.forEach(child => {
     //   console.log(child.material.refractionRatio )
     // })
+    loading.classList.add('loaded');
+    setTimeout(() => {
+      loading.classList.add('hidden');
+    }, 2000)
   });
   // var loader = new THREE.FBXLoader();
   // loader.load('../model/ComicScene.fbx', function (object) {
@@ -125,7 +130,7 @@ function animate() {
 function onWheelEvent(event, speed) {
   // console.log(wheelPosition, cameraWheelZ)
   if (0 <= wheelPosition && wheelPosition <= 1) {
-    wheelPosition += event.deltaY * (-0.00001 * speed);
+    wheelPosition -= event.deltaY * (-0.00001 * speed);
   }
   
   if (0 > wheelPosition) {
