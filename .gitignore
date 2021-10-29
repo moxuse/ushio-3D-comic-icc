@@ -1,3 +1,5 @@
 release
 Library
 Logs
+release.sh
+web/deploy.command
