@@ -2,6 +2,10 @@ var container, controls;
 var camera, scene, renderer, light;
 var from, to, wheelPosition;
 var loading = document.getElementById('loading');
+var md = new MobileDetect(window.navigator.userAgent);
+var isMobile = md.mobile();
+var timerId;
+var beseDistance = 0;
 // var stats;
 
 axios.get('data/config.json')
@@ -103,6 +107,23 @@ function init(config) {
   var scrollElement = document.getElementById('wheel');
   scrollElement.addEventListener('wheel', function (event) { onWheelEvent(event, speed) }, false);
   
+  if (isMobile) {
+    document.documentElement.addEventListener('touchmove', function (event) { onTouchMovie(event, speed) }, false);
+    document.documentElement.addEventListener('touchstart', function (e) {
+      if (e.touches.length >= 2) {
+        e.preventDefault();
+      }
+    }, {passive: false});
+    /* ダブルタップによる拡大を禁止 */
+    var t = 0;
+    document.documentElement.addEventListener('touchend', function (e) {
+    var now = new Date().getTime();
+      if ((now - t) < 350){
+        e.preventDefault();
+      }
+      t = now;
+    }, false);
+  }
   // stats
   // stats = new Stats();
   // container.appendChild( stats.dom );
@@ -128,6 +149,7 @@ function animate() {
 
 // mouse wheel and camera move event
 function onWheelEvent(event, speed) {
+  event.preventDefault();
   // console.log(wheelPosition, cameraWheelZ)
   if (0 <= wheelPosition && wheelPosition <= 1) {
     wheelPosition -= event.deltaY * (-0.00001 * speed);
@@ -138,6 +160,38 @@ function onWheelEvent(event, speed) {
   }
   if (1 <= wheelPosition) {
     wheelPosition = 1;
+  }
+}
+
+function onTouchMovie(event, speed) {
+  var touches = event.changedTouches;
+  if (touches.length > 1) {
+    var x1 = touches[0].pageX ;
+		var y1 = touches[0].pageY ;
+		var x2 = touches[1].pageX ;
+    var y2 = touches[1].pageY;
+    
+		var distance = Math.sqrt( Math.pow( x2 - x1, 2 ) + Math.pow( y2 - y1, 2 ) ) ;
+    
+    clearTimeout(timerId);
+    if (beseDistance) {
+      if (beseDistance > distance) {
+        wheelPosition -= distance * 0.000025 * speed;
+      } else if (beseDistance <= distance) {
+        wheelPosition += distance * 0.000025 * speed;
+      }
+      timeoutId = setTimeout( function () {
+				beseDistance = 0;
+      }, 100);
+      if (0 > wheelPosition) {
+        wheelPosition = 0;
+      }
+      if (1 <= wheelPosition) {
+        wheelPosition = 1;
+      }
+    } else {
+      beseDistance = distance;
+    }
   }
   event.preventDefault();
 }
