@@ -59,7 +59,7 @@ function init(config) {
 
   // model
   var loader = new THREE.GLTFLoader();  //from the docs
-  loader.load('../data/model/ushio_ICC.glb', function (data) {      
+  loader.load('../data/model/' + config.fileName, function (data) {      
     var obj = data.scene;
     // obj.children.forEach(child => {
     //   child.material.refractionRatio = 0.1;
