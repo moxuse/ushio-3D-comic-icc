@@ -6,6 +6,7 @@ var md = new MobileDetect(window.navigator.userAgent);
 var isMobile = md.mobile();
 var timerId;
 var beseDistance = 0;
+var fogStartDistance = 1.0;
 // var stats;
 
 axios.get('data/config.json')
@@ -27,12 +28,13 @@ function init(config) {
   
   container = document.getElementById( 'stage' );
 
-  camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.01, 100 );
+  camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.01, fogStartDistance + 1.0 );
   camera.position.set(begin.x, begin.y, begin.z);
   camera.lookAt(new THREE.Vector3(0, 0, -2000));
 
   scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0xffffff );
+  scene.background = new THREE.Color(0xffffff);
+  scene.fog = new THREE.Fog(0xffffff, fogStartDistance, fogStartDistance + 1.0);
 
   // ground
   // var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
