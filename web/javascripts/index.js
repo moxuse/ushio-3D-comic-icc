@@ -9,6 +9,16 @@ var beseDistance = 0;
 var fogStartDistance = 1.0;
 // var stats;
 
+
+// For blackout texture on iOS >= 14
+const IS_IOS =
+  /^(iPad|iPhone|iPod)/.test(window.navigator.platform) ||
+  (/^Mac/.test(window.navigator.platform) && window.navigator.maxTouchPoints > 1);
+if (IS_IOS) {
+  window.createImageBitmap = undefined;
+}
+/////
+
 axios.get('data/config.json')
   .then(function (res) {
     init(res.data);
