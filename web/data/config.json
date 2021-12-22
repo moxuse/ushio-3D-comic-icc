@@ -12,5 +12,7 @@
       "y": -0.027,
       "z": -1
     }
-  }
+  },
+  "fogStartDistance": 1.2,
+  "fogEndDistance": 2.0
 }

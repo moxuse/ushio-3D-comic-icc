@@ -38,13 +38,13 @@ function init(config) {
   
   container = document.getElementById( 'stage' );
 
-  camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.01, fogStartDistance + 1.0 );
+  camera = new THREE.PerspectiveCamera( 36, window.innerWidth / window.innerHeight, 0.01, config.fogEndDistance );
   camera.position.set(begin.x, begin.y, begin.z);
   camera.lookAt(new THREE.Vector3(0, 0, -2000));
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
-  scene.fog = new THREE.Fog(0xffffff, fogStartDistance, fogStartDistance + 1.0);
+  scene.fog = new THREE.Fog(0xffffff, config.fogStartDistance, config.fogEndDistance);
 
   // ground
   // var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
