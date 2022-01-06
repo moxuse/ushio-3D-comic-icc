@@ -2,6 +2,7 @@ var container, controls;
 var camera, scene, renderer, light;
 var from, to, wheelPosition;
 var loading = document.getElementById('loading');
+var instruction = document.getElementById('instruction');
 var md = new MobileDetect(window.navigator.userAgent);
 var isMobile = md.mobile();
 var timerId;
@@ -85,7 +86,15 @@ function init(config) {
     loading.classList.add('loaded');
     setTimeout(() => {
       loading.classList.add('hidden');
-    }, 2000)
+    }, 2000);
+
+    setTimeout(() => {
+      instruction.classList.add('loaded');
+    }, 5000);
+
+    setTimeout(() => {
+      instruction.classList.add('hidden');
+    }, 7000);
   });
   // var loader = new THREE.FBXLoader();
   // loader.load('../model/ComicScene.fbx', function (object) {

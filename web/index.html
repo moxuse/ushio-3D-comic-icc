@@ -21,8 +21,8 @@
       }
 
       #loading {        
-        position: relative;
-        z-index: 1;
+        position: absolute;
+        z-index: 2;
         width: 100%;
         height: 100%;
         display: flex;
@@ -46,6 +46,27 @@
         display: none;
       }
 
+      #instruction {        
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(255, 255, 255);
+        flex-wrap: wrap;
+        transition: opacity 2.0s;
+      }
+
+      #instruction.loaded {
+        opacity: 0;
+      }
+
+      #instruction.hidden {
+        display: none;
+      }
+
       #wheel {
         position: fixed;
         top: 0;
@@ -60,6 +81,9 @@
   <body>
     <div id="loading">
       <p>Loading...</p>
+    </div>
+    <div id="instruction">
+      <p>Instruction</p>
     </div>
     <div id="wheel">
       <div id="stage"></div>
