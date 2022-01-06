@@ -20,6 +20,10 @@
         font-family: "游ゴシック体","Yu Gothic",YuGothic,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"Helvetica Neue",Helvetica,Arial,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
       }
 
+      body.hideCursor {
+        cursor: none;
+      }
+
       #loading {        
         position: absolute;
         z-index: 2;
@@ -39,6 +43,7 @@
       }
 
       #loading.loaded {
+        visibility: visible;
         opacity: 0;
       }
 
@@ -54,12 +59,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: rgb(255, 255, 255);
+        /* background: #fff; */
+        background-color: rgba(255, 255, 255, 1.0);
         flex-wrap: wrap;
-        transition: opacity 2.0s;
+        transition: opacity 3.5s linear;
       }
 
-      #instruction.loaded {
+      #instruction.loaded {        
+        visibility: visible;
         opacity: 0;
       }
 

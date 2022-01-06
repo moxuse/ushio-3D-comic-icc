@@ -9,7 +9,9 @@ var timerId;
 var beseDistance = 0;
 var fogStartDistance = 1.0;
 // var stats;
-
+var urlSearchParams = new URLSearchParams(window.location.search);
+var params = Object.fromEntries(urlSearchParams.entries());
+var hideCursor = (params.cursor && params.cursor  === 'hide');
 
 // For blackout texture on iOS >= 14
 const IS_IOS =
@@ -30,6 +32,9 @@ axios.get('data/config.json')
   });
 
 function init(config) {
+  if (hideCursor) { 
+    document.body.classList.add('hideCursor');
+  }
   wheelPosition = 0;
   var speed = config.camera.speed;
   var begin = config.camera.begin;

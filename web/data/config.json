@@ -1,16 +1,16 @@
 {
-  "fileName": "ushio_ICC.glb",
+  "fileName": "ushio_ICC2.glb",
   "camera": {
     "speed": 3.5,
     "begin": {
-      "x": 0,
-      "y": -0.027,
-      "z": 1
+      "x": 0.00571,
+      "y": -0.02734,
+      "z": 3.66818
     },
     "end": {
-      "x": 0,
-      "y": -0.027,
-      "z": -1
+      "x": 0.00571,
+      "y": -0.02734,
+      "z": -17.80781
     }
   },
   "fogStartDistance": 1.2,
