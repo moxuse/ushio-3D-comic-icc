@@ -1,1 +1,1 @@
-zip ./release/ushio-icc-web-vX.X.zip -r web/ --exclude *.DS_Store *.command
+zip ./release/ushio-icc-web-v1.0.0.zip -r web/ --exclude *.DS_Store *.command
