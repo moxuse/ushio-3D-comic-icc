@@ -4,7 +4,10 @@ var from, to, wheelPosition;
 var loading = document.getElementById('loading');
 // var instruction = document.getElementById('instruction');
 var md = new MobileDetect(window.navigator.userAgent);
-var isMobile = md.mobile();
+function detectiPad(){
+  return (navigator.platform === "MacIntel" && window.navigator.maxTouchPoints >= 5);
+}
+var isMobile = md.mobile() || detectiPad();
 var timerId;
 var beseDistance = 0;
 var fogStartDistance = 1.0;
@@ -202,9 +205,9 @@ function onTouchMovie(event, speed) {
     clearTimeout(timerId);
     if (beseDistance) {
       if (beseDistance > distance) {
-        wheelPosition -= distance * 0.000025 * speed;
+        wheelPosition -= distance * 0.0000025 * speed;
       } else if (beseDistance <= distance) {
-        wheelPosition += distance * 0.000025 * speed;
+        wheelPosition += distance * 0.0000025 * speed;
       }
       timeoutId = setTimeout( function () {
 				beseDistance = 0;
